@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
+    use ApiResponse;
     /**
      * Create a new controller instance.
      *
