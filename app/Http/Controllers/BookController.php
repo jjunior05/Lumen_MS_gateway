@@ -2,20 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\BookService;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
     use ApiResponse;
+
+    /**
+     * the service to consumer the book service
+     * @var bookService
+     */
+    public $bookService;
+
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(BookService $bookService)
     {
-        //
+        $this->bookService = $bookService;
     }
 
     /**

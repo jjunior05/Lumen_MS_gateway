@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\AuthorService;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 
@@ -13,9 +14,16 @@ class AuthorController extends Controller
      *
      * @return void
      */
-    public function __construct()
+
+    /**
+     * the service to consumer the author service
+     * @var AuthorService
+     */
+    public $authorService;
+
+    public function __construct(AuthorService $authorService)
     {
-        //
+        $this->authorService = $authorService;
     }
 
     /**
