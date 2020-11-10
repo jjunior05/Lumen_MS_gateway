@@ -33,6 +33,7 @@ class AuthorController extends Controller
 
     public function index()
     {
+        $this->successResponse($this->authorService->obtainAuthors());
     }
 
     /**

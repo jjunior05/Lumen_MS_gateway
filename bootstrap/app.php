@@ -32,6 +32,7 @@ $app->withEloquent();
  */
 $app->configure('services');
 
+
 /*
 |--------------------------------------------------------------------------
 | Register Container Bindings

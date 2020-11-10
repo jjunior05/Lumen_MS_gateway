@@ -15,7 +15,7 @@ trait ApiResponse
      */
     public function successResponse($data, $code = Response::HTTP_OK)
     {
-        return response($data, $code)->header('Content-Type', 'application/json');
+        return response($data, $code)->header('content-type', 'application/json');
     }
 
     /**
@@ -37,6 +37,6 @@ trait ApiResponse
      */
     public function errorMessage($message, $code)
     {
-        return response($message, $code)->header('Content-Type', 'application/json');
+        return response($message, $code)->header('content-type', 'application/json');
     }
 }

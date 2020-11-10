@@ -9,7 +9,7 @@ class BookService
     use ConsumesExternalService;
 
     /**
-     * The base uri to be used consuume the authors service
+     * The base uri to be used consume the authors service
      * @var strings
      */
 
@@ -17,6 +17,15 @@ class BookService
 
     public function __construct()
     {
-        $this->baseUri = config('services.authors.base_uri');
+        $this->baseUri = config('services.books.base_uri');
+    }
+
+    /**
+     * Get the full list of authors from the books services.
+     * @var strings
+     */
+    function obtainBooks()
+    {
+        $this->performRequest('GET', '/books');
     }
 }
