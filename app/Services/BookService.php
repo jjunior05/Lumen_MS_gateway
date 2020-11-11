@@ -9,7 +9,7 @@ class BookService
     use ConsumesExternalService;
 
     /**
-     * The base uri to be used consume the authors service
+     * The base uri to be used consume the Books service
      * @var strings
      */
 
@@ -21,11 +21,47 @@ class BookService
     }
 
     /**
-     * Get the full list of authors from the books services.
+     * Get the full list of Books from the books services.
      * @var strings
      */
     function obtainBooks()
     {
         $this->performRequest('GET', '/books');
+    }
+
+    /**
+     * Create an instance of Book using the Books services
+     * @return strings
+     */
+    function createBooks($data)
+    {
+        $this->performRequest('POST', '/books', $data);
+    }
+
+    /**
+     * Get a single Books from the Books service
+     * @return string
+     */
+    function obtainBook($book)
+    {
+        $this->performRequest('GET', "/Books/{$book}");
+    }
+
+    /**
+     * Edit a instance of the Books from the Books service
+     * @return string
+     */
+    function editBook($data, $book)
+    {
+        $this->performRequest('PUT', "/Books/{$book}", $data);
+    }
+
+    /**
+     * Edit a instance of the Books from the Books service
+     * @return string
+     */
+    function deleteBook($book)
+    {
+        $this->performRequest('DELETE', "/Books/{$book}");
     }
 }

@@ -28,4 +28,40 @@ class AuthorService
     {
         $this->performRequest('GET', '/authors');
     }
+
+    /**
+     * Create an instance of author using the authors services
+     * @return string
+     */
+    function createAuthors($data)
+    {
+        $this->performRequest('POST', '/authors', $data);
+    }
+
+    /**
+     * Get a single authors from the authors service
+     * @return string
+     */
+    function obtainAuthor($author)
+    {
+        $this->performRequest('GET', "/authors/{$author}");
+    }
+
+    /**
+     * Edit a instance of the authors from the authors service
+     * @return string
+     */
+    function editAuthor($data, $author)
+    {
+        $this->performRequest('PUT', "/authors/{$author}", $data);
+    }
+
+    /**
+     * Edit a instance of the authors from the authors service
+     * @return string
+     */
+    function deleteAuthor($author)
+    {
+        $this->performRequest('DELETE', "/authors/{$author}");
+    }
 }

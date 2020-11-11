@@ -15,8 +15,8 @@ trait ConsumesExternalService
         $client = new Client([
             'base_uri' => $this->baseUri,
         ]);
-        dd($client);
+
         $response = $client->request($method, $requestUrl, ['form_params' => $formParams, 'headers' => $headers]);
-        return $response->getBody()->getContents();
+        return json_decode($response->getBody()->getContents());
     }
 }
