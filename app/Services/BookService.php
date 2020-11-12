@@ -12,12 +12,18 @@ class BookService
      * The base uri to be used consume the Books service
      * @var strings
      */
-
     public $baseUri;
+
+    /**
+     * The secret to be used consume the Books service
+     * @var strings
+     */
+    public $secret;
 
     public function __construct()
     {
         $this->baseUri = config('services.books.base_uri');
+        $this->secret = config('services.books.secret');
     }
 
     /**

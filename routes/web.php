@@ -12,7 +12,7 @@
 | and give it the Closure to call when that URI is requested.
 |
 */
-$router->group(['middleware' => 'cliente.credentials'], function () use ($router) {
+$router->group(['middleware' => 'client.credentials'], function () use ($router) {
 
     /**
      * Authors routes

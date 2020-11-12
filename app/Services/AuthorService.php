@@ -11,13 +11,19 @@ class AuthorService
      * The base uri to be used consuume the authors service
      * @var strings
      */
-
     public $baseUri;
+
+    /**
+     * The secret to be used consuume the authors service
+     * @var strings
+     */
+    public $secret;
 
     public function __construct()
     {
         //consumindo a base_uri do ConsumesExternalService com a variável config.service
         $this->baseUri = config('services.authors.base_uri');
+        $this->secret = config('services.authors.secret');
     }
 
     /**

@@ -1,4 +1,18 @@
 
+# config/services.php
+<?php
+
+return [
+    'authors' => [
+        'base_uri' => env('AUTHORS_SERVICE_BASE_URL'),
+        'secret'=>env('AUTHORS_SERVICE_SECRET'),
+    ],
+
+    'books' => [
+        'base_uri' => env('BOOKS_SERVICE_BASE_URL'),
+        'secret'=>env('BOOKS_SERVICE_SECRET'),
+    ],
+];
 
 
 # Criar uma Trait em Traits/ConsumesExternalService.php
@@ -100,9 +114,20 @@ public function boot()
         LumenPassport::routes($this->app->router);
     }
 
-## Configurando Middleware
+## Configurando Middleware bootstrap/App.php
 $app->routeMiddleware([
     'cliente.credentials' =>Laravel\Passport\Http\Middleware\CheckClientCredentials::class,
 ]);
 
 
+## Criando o Token de acesso
+
+php artisan passport:client
+
+enviar uma requisição POST token para a route: /oauth/token
+
+Params:
+
+grant_type      = client.credentials
+client_id       = id do client gerado no php artisan passport:client
+client_secret   = Client Secret gerarto no php artisan passport:client
