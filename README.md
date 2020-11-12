@@ -1,24 +1,108 @@
-# Lumen PHP Framework
 
-[![Build Status](https://travis-ci.org/laravel/lumen-framework.svg)](https://travis-ci.org/laravel/lumen-framework)
-[![Total Downloads](https://img.shields.io/packagist/dt/laravel/framework)](https://packagist.org/packages/laravel/lumen-framework)
-[![Latest Stable Version](https://img.shields.io/packagist/v/laravel/framework)](https://packagist.org/packages/laravel/lumen-framework)
-[![License](https://img.shields.io/packagist/l/laravel/framework)](https://packagist.org/packages/laravel/lumen-framework)
 
-Laravel Lumen is a stunningly fast PHP micro-framework for building web applications with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Lumen attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as routing, database abstraction, queueing, and caching.
 
-## Official Documentation
+# Criar uma Trait em Traits/ConsumesExternalService.php
+<?php
+ 
+namespace App\Traits;
+ 
+use GuzzleHttp\Client;
+ 
+trait ConsumesExternalService
+{
+    /**
+     * Send a request to any service
+     */
+ 
+    public function performRequest($method, $requestUrl, $formParams = [], $headers = [])
+    {
+        $client = new Client([
+            'baseUri' => $this->baseUri,
+        ]);
+ 
+        $response = $client->request($method, $requestUrl, ['form_params' => $formParams, 'headers' => $headers]);
+ 
+        return $response->getBody()->getContents();
+    }
+}
 
-Documentation for the framework can be found on the [Lumen website](https://lumen.laravel.com/docs).
 
-## Contributing
+# Services
+Para começar a trabalhar com o gateway.
 
-Thank you for considering contributing to Lumen! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+No projeto, criar uma pasta "Config/services.php".
 
-## Security Vulnerabilities
+Registrar em bootstrap/app.php
 
-If you discover a security vulnerability within Lumen, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+config/services.php
 
-## License
+<?php
+ 
+return [];        
+bootstrap/app.php
 
-The Lumen framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+/**
+ * Registering config files
+ */
+$app->configure('services');
+
+### Gateway Security
+
+## Registrar camada de segurança na arquitetura de micro serviços 
+
+
+# Lumen Passport
+
+Lumen Passport
+
+Habilitar em bootstrap/app.php
+
+$app->register(App\Providers\AuthServiceProvider::class);
+ 
+$app->register(Laravel\Passport\PassportServiceProvider::class);
+$app->register(Dusterio\LumenPassport\PassportServiceProvider::cla
+
+no novo arquivo auth.php
+
+'guards' => [
+        'api' => [
+            'driver' => 'passport',
+            'provider' => 'users',
+        ],
+ 
+ 
+    'providers' => [
+        'users' => [
+            'drivers' => 'eloquent',
+            'model' => App\User::class,
+        ]
+
+Criar em config/auth.php
+
+Copiar o conteúdo de vendor/laravel/Lumen-framework/config/auth.php
+
+
+Registrar no Providers/AuthServiceProvider.php
+
+public function boot()
+    {
+        // Here you may define how you wish users to be authenticated for your Lumen
+        // application. The callback which receives the incoming request instance
+        // should return either a User instance or null. You're free to obtain
+        // the User instance via an API token or any other method necessary.
+
+        // $this->app['auth']->viaRequest('api', function ($request) {
+        //     if ($request->input('api_token')) {
+        //         return User::where('api_token', $request->input('api_token'))->first();
+        //     }
+        // });
+
+        LumenPassport::routes($this->app->router);
+    }
+
+## Configurando Middleware
+$app->routeMiddleware([
+    'cliente.credentials' =>Laravel\Passport\Http\Middleware\CheckClientCredentials::class,
+]);
+
+
