@@ -24,6 +24,7 @@ class BookService
     {
         $this->baseUri = config('services.books.base_uri');
         $this->secret = config('services.books.secret');
+
     }
 
     /**

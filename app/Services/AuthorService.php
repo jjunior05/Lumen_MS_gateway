@@ -8,7 +8,7 @@ class AuthorService
 {
     use ConsumesExternalService;
     /**
-     * The base uri to be used consuume the authors service
+     * The base uri to be used consume the authors service
      * @var strings
      */
     public $baseUri;
@@ -24,6 +24,7 @@ class AuthorService
         //consumindo a base_uri do ConsumesExternalService com a variável config.service
         $this->baseUri = config('services.authors.base_uri');
         $this->secret = config('services.authors.secret');
+
     }
 
     /**
