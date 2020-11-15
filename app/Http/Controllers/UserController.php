@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -32,11 +33,14 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validateRequest($request, 'store');
+        $this->validateRequest($request, 'store', '');
 
-        $user = User::create($request->all());
+        $fields = $request->all();
+        $fields['password'] = Hash::make($request->password);
 
-        return $this->successResponse($user, Response::HTTP_CREATED);
+        $user = User::create($fields);
+
+        return $this->validResponse($user, Response::HTTP_CREATED);
     }
 
     /**
@@ -47,17 +51,21 @@ class UserController extends Controller
     {
         $user = User::findOrFail($user);
 
-        return $this->successResponse($user);
+        return $this->validResponse($user);
     }
 
     public function update($user, Request $request)
     {
 
-        $this->validateRequest($request, 'update');
+        $this->validateRequest($request, 'update', $user);
 
         $user = User::findOrFail($user);
 
         $user->fill($request->all());
+
+        if ($request->has('password')) {
+            $user->password = Hash::make($request->password);
+        }
 
         //Verify if exists $author Request
         if ($user->isClean()) {
@@ -66,7 +74,7 @@ class UserController extends Controller
 
         $user->save();
 
-        return $this->successResponse($user);
+        return $this->validResponse($user);
     }
 
     /**
@@ -79,24 +87,24 @@ class UserController extends Controller
 
         $user->delete();
 
-        return $this->successResponse($user);
+        return $this->validResponse($user);
     }
 
     //
 
-    public function validateRequest(Request $request, $typeRequest)
+    public function validateRequest(Request $request, $typeRequest, $user)
     {
         if ($typeRequest == 'store') {
             $rules = [
                 'name' => 'required|max:100',
-                'email' => 'required|max:20|mail|unique:users,email',
-                'password' => 'required|max:8',
+                'email' => 'required|max:50|email|unique:users' . $user,
+                'password' => 'required|min:8|confirmed',
             ];
         } elseif ($typeRequest == 'update')
             $rules = [
                 'name' => 'max:100',
-                'email' => 'max:20',
-                'password' => 'max:8',
+                'email' => 'max:50|email|unique:users' . $user,
+                'password' => 'min:8|confirmed',
             ];
 
         $messages = [
@@ -105,7 +113,7 @@ class UserController extends Controller
             'email.required' => 'The email has required',
             'email.email' => 'The email informed dont has been valid!',
             'email.unique' => 'The email to need unique field!',
-            'email.max' => 'The email have more than 20 caracters',
+            'email.max' => 'The email have more than 50 caracters',
             'password.required' => 'The price has required',
             'password.max' => 'The password have more than 8 caracters',
         ];
